@@ -31,9 +31,12 @@ export async function POST(req: NextRequest) {
           description: data?.description,
           address:data?.address,
           time:data?.time,
-          imageUrl:data?.imageUrl
+          imageUrl:data?.imageUrl,
+          date:data?.date
       }
     })
+
+   
 
     return Response.json({message:"show is created",show:createShow},{status:200})
 

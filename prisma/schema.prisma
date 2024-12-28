@@ -28,4 +28,5 @@ model Show {
   description String
   imageUrl    String
   time        String
+  date        String
 }
