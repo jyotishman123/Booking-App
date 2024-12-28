@@ -5,3 +5,5 @@ const nextConfig: NextConfig = {
     domains: ["uhtnrurxzsfcfmhumfvx.supabase.co"], // Add allowed domains here
   },
 };
+
+module.exports = nextConfig;
