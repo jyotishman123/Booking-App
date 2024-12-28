@@ -8,10 +8,11 @@ datasource db {
 }
 
 model User {
-  id           Int     @id @default(autoincrement())
-  email        String  @unique
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
   name         String?
   profileImage String?
+  bookings     Booking[]
 }
 
 model Admin {
@@ -22,13 +23,32 @@ model Admin {
 }
 
 model Show {
-  id          Int    @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   name        String
   address     String
   description String
   imageUrl    String
   time        String
   date        String
+  bookSeat    BookSeat[]
+  bookings    Booking[]
 }
 
+model Booking {
+  id         Int        @id @default(autoincrement())
+  userId     Int
+  showId     Int
+  createdAt  DateTime   @default(now())
+  bookedSeat BookSeat[]
+  show       Show       @relation(fields: [showId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
+}
 
+model BookSeat {
+  id         Int     @id @default(autoincrement())
+  showId     Int
+  bookingId  Int
+  SeatNumber Int
+  booking    Booking @relation(fields: [bookingId], references: [id])
+  show       Show    @relation(fields: [showId], references: [id])
+}

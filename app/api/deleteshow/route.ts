@@ -26,7 +26,27 @@ export async function DELETE(req: NextRequest) {
 
     const decode = jwt.verify(token?.value, secret as string) as JwtPayload;
 
-    await prisma.show.delete({where: {id:id}})
+
+    await prisma.bookSeat.deleteMany({
+      where: {
+        showId: id,
+      },
+    });
+    
+    await prisma.booking.deleteMany({
+      where: {
+        showId: id,
+      },
+    });
+    
+    // Now delete the Show record
+    await prisma.show.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    // await prisma.show.delete({where: {id:id}})
 
     return Response.json({message:"show deleted successfully"},{status:200})
 
