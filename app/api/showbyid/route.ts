@@ -10,8 +10,16 @@ export async function GET(req: NextRequest) {
        const show = await prisma.show.findUnique({
              where:{
                 id:id
+             },
+             include:{
+                bookSeat:true
              }
        })
+
+       if (!show) {
+        return Response.json({ status: "Not Found" }, { status: 404 });
+    }
+
       return Response.json({status:"Show",show})
     } catch (error) {
         console.log(error);

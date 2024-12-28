@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 type Movie = {
   id: number;
@@ -89,12 +90,13 @@ const AllShow = () => {
                 <p className="text-sm text-gray-700">
                   Address: {movie.address}
                 </p>
+                <Link href={`/bookshow?show=${movie?.id}`}> 
                 <button
-                  className="mt-4 bg-slate-900 text-white py-2 px-4 rounded-md font-semibold"
-                   
+                  className="mt-4 bg-slate-900 text-white py-2 px-4 rounded-md font-semibold"   
                 > 
                   Book Now
                   </button>
+                  </Link>
               </div>
             </div>
           ))}
