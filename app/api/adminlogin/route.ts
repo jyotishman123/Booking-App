@@ -40,8 +40,18 @@ export async function POST(req: NextRequest) {
       expiresIn: "1h", // You can adjust the token expiration as needed
     });
 
-    (await cookies()).set("admin_token", token, { secure: true, httpOnly: true });
-    return NextResponse.redirect(new URL("/", req.url));
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + 1);
+
+    (await cookies()).set("admin_token", token, {
+      secure: true,
+      httpOnly: true,
+      expires: expiresAt,
+    });
+    return NextResponse.json(
+      {loginSuccess:true,message:"Admin login successfully"},
+      {status:200}
+    )
   } catch (error) {
     console.log(error);
     return Response.json(
@@ -50,5 +60,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
- 
