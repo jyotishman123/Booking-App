@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["uhtnrurxzsfcfmhumfvx.supabase.co"], // Add allowed domains here
   },
+  
 };
 
 module.exports = nextConfig;

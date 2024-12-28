@@ -1,18 +1,22 @@
-"use client"
+"use client";
 
-import React from 'react'
-import { useSearchParams } from 'next/navigation'
+import React, { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+
+const BookShowContent = () => {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("show");
+  console.log(search);
+
+  return <div>BookShow</div>;
+};
 
 const BookShow = () => {
-
-    const searchParams = useSearchParams()
-    const search = searchParams.get('show')
-
-    console.log(search)
-
   return (
-    <div>BookShow</div>
-  )
-}
+    <Suspense fallback={<div>Loading...</div>}>
+      <BookShowContent />
+    </Suspense>
+  );
+};
 
-export default BookShow
+export default BookShow;
