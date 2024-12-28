@@ -10,14 +10,14 @@ type Movie = {
   time: string;
   address: string;
   imageUrl: string;
-  date: string;
+  date: string
 };
 
-const GetAllShow = () => {
+const AllShow = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true); // State to track loading
-  const [requesting, setRequesting] = useState({ id: 0, status: false });
+
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -38,28 +38,7 @@ const GetAllShow = () => {
     fetchMovies();
   }, []);
 
-  async function handleDelete(id: any) {
-    try {
-      setRequesting({ id: id, status: true });
-      const response = await fetch(`/api/deleteshow?id=${id}`, {
-        method: "DELETE",
-      });
-      if (response.status !== 200) {
-        alert("Failed to delete the show");
-        setRequesting({ id: 0, status: false });
-        return
-      }
-      alert("Show delete successfully");
-      setMovies((prevMovies) => prevMovies.filter((movie) => movie.id !== id));
-    } catch (error) {
-      console.log(error);
-      alert("Something went wrong while deleteing");
-      setRequesting({ id: 0, status: false });
-      return
-    } finally {
-      setRequesting({ id: 0, status: false });
-    }
-  }
+ 
 
   if (loading) {
     return (
@@ -111,16 +90,11 @@ const GetAllShow = () => {
                   Address: {movie.address}
                 </p>
                 <button
-                  className="mt-4 bg-red-500 text-white py-2 px-4 rounded-md font-semibold"
-                  disabled={requesting?.status}
-                  onClick={() => {
-                    handleDelete(movie?.id);
-                  }}
-                >
-                  {requesting?.id === movie?.id && requesting.status
-                    ? "Deleting"
-                    : "Delete"}
-                </button>
+                  className="mt-4 bg-slate-900 text-white py-2 px-4 rounded-md font-semibold"
+                   
+                > 
+                  Book Now
+                  </button>
               </div>
             </div>
           ))}
@@ -130,4 +104,4 @@ const GetAllShow = () => {
   );
 };
 
-export default GetAllShow;
+export default AllShow;
