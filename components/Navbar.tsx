@@ -9,6 +9,7 @@ import Avatar from '@mui/material/Avatar';
 interface User {
   userlogin: boolean;
   data:{
+    userlogin:boolean
   data: {
     profileImage: string;
     id: number;
@@ -28,7 +29,7 @@ const Navbar = () => {
   const userdata = user?.data;
   const userlogin = user?.userlogin;
   
-  console.log(user?.data?.data?.profileImage)
+  console.log(user )
 
   return (
     <nav className="bg-slate-900 text-white">
@@ -57,7 +58,7 @@ const Navbar = () => {
                 <Link href="/login">
                   <CircularProgress color="inherit" size={15} />
                 </Link>
-              ) : userlogin === false ? (
+              ) :  user?.data?.userlogin  === false ? (
                 <Link
                   href="/login"
                   className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
@@ -142,7 +143,7 @@ const Navbar = () => {
         <Link href="/login" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700">
           <CircularProgress color="inherit" size={15} />
         </Link>
-      ) : userlogin === false ? (
+      ) : user?.data?.userlogin === false ? (
         <Link
           href="/login"
           className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700"

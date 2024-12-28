@@ -5,7 +5,7 @@ const Page = () => {
 
  
     const clientid = process.env.GOOGLE_CLIENT_ID 
-    const redirect_uri =  process.env.REDIRECT_URI
+    const redirect_uri = process.env.REDIRECT_URI
 
 
 
