@@ -1,6 +1,7 @@
 import React from "react";
 import Logoutbutton from "@/components/admin/Logoutbutton";
 import Link from "next/link";
+import GetAllShow from "@/components/admin/GetAllShow";
 
 const page = () => {
   return (
@@ -17,6 +18,10 @@ const page = () => {
           <button className="bg-slate-900 py-2 px-4 rounded-md text-white font-semibold hover:bg-slate-600 
                sm:py-2 sm:px-4 md:py-2 md:px-6 lg:py-3 lg:px-8 text-base sm:text-sm md:text-lg">Create Show</button>
           </Link>
+        </div>
+
+        <div>
+             <GetAllShow />
         </div>
 
     </div>
