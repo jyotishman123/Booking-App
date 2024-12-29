@@ -11,6 +11,7 @@ type Movie = {
   address: string;
   imageUrl: string;
   date: string;
+  price:string
 };
 
 const GetAllShow = () => {
@@ -107,6 +108,7 @@ const GetAllShow = () => {
                 <p className="text-sm text-gray-700">{movie.description}</p>
                 <p className="text-sm text-gray-700 mt-2">Time: {movie.time}</p>
                 <p className="text-sm text-gray-700 mt-2">Date: {movie.date}</p>
+                <p className="text-sm text-gray-700 mt-2">Rs: {movie.price}</p>
                 <p className="text-sm text-gray-700">
                   Address: {movie.address}
                 </p>

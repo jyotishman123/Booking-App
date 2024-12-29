@@ -11,6 +11,7 @@ const CreateShowForm = () => {
     address: "",
     imageUrl: "",
     date:"",
+    price:""
   });
 
   const [uploading, setUploading] = useState(false);
@@ -153,6 +154,25 @@ const CreateShowForm = () => {
             id="date"
             name="date"
             value={formData.date}
+            onChange={handleChange}
+            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+            required
+          />
+        </div>
+
+             {/* price */}
+             <div>
+          <label
+            htmlFor="price"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Price
+          </label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            value={formData.price}
             onChange={handleChange}
             className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
             required

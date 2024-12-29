@@ -30,6 +30,7 @@ model Show {
   imageUrl    String
   time        String
   date        String
+  price       String
   bookSeat    BookSeat[]
   bookings    Booking[]
 }

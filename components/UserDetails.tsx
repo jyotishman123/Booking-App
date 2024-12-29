@@ -38,6 +38,7 @@ interface Booking {
     imageUrl: string;
     time: string;
     date: string;
+    price:string
   };
 }
 
@@ -121,6 +122,9 @@ const UserDetails = () => {
                 </p>
                 <p className="text-gray-600 text-sm mb-2">
                   <strong>Description:</strong> {booking.show.description}
+                </p>
+                <p className="text-gray-600 text-sm mb-2">
+                  <strong>Price:</strong> {booking.show.price}
                 </p>
                 <div className="text-gray-600 text-sm">
                   <strong>Seats:</strong>{" "}

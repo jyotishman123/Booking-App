@@ -32,7 +32,8 @@ export async function POST(req: NextRequest) {
           address:data?.address,
           time:data?.time,
           imageUrl:data?.imageUrl,
-          date:data?.date
+          date:data?.date,
+          price:data?.price
       }
     })
 

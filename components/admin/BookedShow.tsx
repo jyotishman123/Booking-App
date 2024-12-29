@@ -24,6 +24,7 @@ interface Booking {
     imageUrl: string;
     time: string;
     date: string;
+    price:string
   };
   bookedSeat: {
     id: number;
@@ -86,6 +87,7 @@ const BookedShow: React.FC = () => {
               <p className="text-gray-600">
                 🗓️ {booking.show.date} | 🕒 {booking.show.time}
               </p>
+              <p className="text-gray-600">💵 {booking.show.price}</p>
               <div className="mt-4">
                 <h3 className="font-medium">Booked Seats:</h3>
                 <p>
