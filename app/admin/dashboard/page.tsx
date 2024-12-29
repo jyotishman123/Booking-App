@@ -13,10 +13,18 @@ const page = () => {
         <Logoutbutton />
       </div>
         
-        <div className="my-2">
+        <div className="my-2 flex gap-3">
           <Link href={"/admin/dashboard/createshow"}> 
           <button className="bg-slate-900 py-2 px-4 rounded-md text-white font-semibold hover:bg-slate-600 
                sm:py-2 sm:px-4 md:py-2 md:px-6 lg:py-3 lg:px-8 text-base sm:text-sm md:text-lg">Create Show</button>
+          </Link>
+          <Link href={"/admin/dashboard/bookedshow"}> 
+          <button className="bg-slate-900 py-2 px-4 rounded-md text-white font-semibold hover:bg-slate-600 
+               sm:py-2 sm:px-4 md:py-2 md:px-6 lg:py-3 lg:px-8 text-base sm:text-sm md:text-lg">Booked Show</button>
+          </Link>
+          <Link href={"/admin/dashboard/registereduser"}> 
+          <button className="bg-slate-900 py-2 px-4 rounded-md text-white font-semibold hover:bg-slate-600 
+               sm:py-2 sm:px-4 md:py-2 md:px-6 lg:py-3 lg:px-8 text-base sm:text-sm md:text-lg">Registered User</button>
           </Link>
         </div>
 

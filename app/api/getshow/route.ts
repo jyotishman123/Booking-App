@@ -5,7 +5,11 @@ import { prisma } from "@/lib/db";
 export async function GET(req:NextRequest) {
        
     try {
-       const movies = await prisma.show.findMany()
+       const movies = await prisma.show.findMany({
+         orderBy:{
+             id:"desc"
+         }
+       })
        return Response.json({"message":"movies",movies})
     } catch (error){
         console.log(error)
