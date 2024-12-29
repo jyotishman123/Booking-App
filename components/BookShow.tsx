@@ -10,6 +10,7 @@ type ShowData = {
   address: string;
   imageUrl: string;
   date: string;
+  price:string;
   bookSeat: [
     {
       id: number;
@@ -78,16 +79,19 @@ const BookShowContent = () => {
 
       if (response.status === 401) {
         alert("User is not logged in");
+        setRequesting(false)
         return;
       }
 
       if (response.status === 400) {
         alert("You have already booked this show");
+        setRequesting(false)
         return;
       }
 
       if (response.status !== 200) {
         alert("Failed to book");
+        setRequesting(false)
         return;
       }
 
@@ -98,6 +102,7 @@ const BookShowContent = () => {
     } catch (error) {
       console.error(error);
       alert("Something went wrong");
+      setRequesting(false)
     } finally {
       setRequesting(false);
     }
@@ -161,6 +166,10 @@ const BookShowContent = () => {
             <strong className="text-lg">Location:</strong>
             <p>{showData.address}</p>
           </div>
+          <div>
+            <strong className="text-lg">Price:</strong>
+            <p>Rs {showData.price}</p>
+          </div>
         </div>
 
         <div className="flex justify-center">
@@ -205,20 +214,23 @@ const BookShowContent = () => {
             <h2 className="text-2xl mb-4">Choose Payment Method</h2>
             <div className="flex flex-col gap-4">
               <button
-                className="bg-blue-600 text-white py-2 px-6 rounded-md"
+                className={requesting ? "bg-slate-600 text-white py-2 px-6 rounded-md" : "bg-blue-600 text-white py-2 px-6 rounded-md"}
+                disabled={requesting}
                 onClick={handleBook}
               >
                 Google Pay
               </button>
               <button
-                className="bg-green-600 text-white py-2 px-6 rounded-md"
+                className={requesting ? "bg-slate-600 text-white py-2 px-6 rounded-md" : "bg-green-600 text-white py-2 px-6 rounded-md"}
                 onClick={handleBook}
+                disabled={requesting}
               >
                 PhonePe
               </button>
               <button
                 className="bg-gray-500 text-white py-2 px-6 rounded-md"
                 onClick={() => setPaymentModalOpen(false)}
+
               >
                 Cancel
               </button>
