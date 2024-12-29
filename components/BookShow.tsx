@@ -1,9 +1,8 @@
-"use client";
+'use client'
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-// Update the ShowData type based on your API response
 type ShowData = {
   name: string;
   description: string;
@@ -11,14 +10,14 @@ type ShowData = {
   address: string;
   imageUrl: string;
   date: string;
-  bookSeat:[
+  bookSeat: [
     {
-      "id":number,
-      "showId":number,
-      "SeatNumber":number,
-      "bookingId":number
+      id: number;
+      showId: number;
+      SeatNumber: number;
+      bookingId: number;
     }
-  ]
+  ];
 };
 
 const BookShowContent = () => {
@@ -28,8 +27,9 @@ const BookShowContent = () => {
   const [showData, setShowData] = useState<ShowData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [requesting, setRequesting] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false); // Modal state
-  const [selectedSeats, setSelectedSeats] = useState<number[]>([]); // State for selected seats
+  const [modalOpen, setModalOpen] = useState(false);
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false); // Payment modal state
+  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchShowData = async () => {
@@ -51,22 +51,12 @@ const BookShowContent = () => {
     fetchShowData();
   }, [showId]);
 
-  console.log(showData?.bookSeat)
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!showData) {
-    return <div>No show data available</div>;
-  }
-
   const handleSeatSelection = (seatNumber: number) => {
     if (selectedSeats.includes(seatNumber)) {
-      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatNumber)); // Remove seat if already selected
+      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatNumber));
     } else {
       if (selectedSeats.length < 20) {
-        setSelectedSeats([...selectedSeats, seatNumber]); // Add seat if not already selected
+        setSelectedSeats([...selectedSeats, seatNumber]);
       } else {
         alert("You can only select up to 20 seats.");
       }
@@ -88,35 +78,39 @@ const BookShowContent = () => {
 
       if (response.status === 401) {
         alert("User is not logged in");
-        setRequesting(false);
         return;
       }
+
+      if (response.status === 400) {
+        alert("You have already booked this show");
+        return;
+      }
+
       if (response.status !== 200) {
-        alert("Failed to Book");
-        setRequesting(false);
+        alert("Failed to book");
         return;
       }
+
       alert("Movie Booked Successfully");
-      setRequesting(false);
-      setModalOpen(false); // Close the modal after booking
-      window.location.href="/dashboard"
+      setModalOpen(false);
+      setPaymentModalOpen(false); // Close both modals after booking
+      window.location.href = "/dashboard";
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert("Something went wrong");
-      setRequesting(false);
     } finally {
       setRequesting(false);
     }
   };
 
   const renderSeatGrid = () => {
-    const seats = Array.from({ length: 20 }, (_, index) => index + 1); // Generate 20 seats
-  
+    const seats = Array.from({ length: 20 }, (_, index) => index + 1);
+
     return seats.map((seatNumber) => {
-      // Check if the seat is already booked by looking in showData.BookSeat
-      const isBooked = showData.bookSeat?.some((bookedSeat) => bookedSeat?.SeatNumber == seatNumber);
-      console.log(isBooked)
-  
+      const isBooked = showData?.bookSeat?.some(
+        (bookedSeat) => bookedSeat?.SeatNumber === seatNumber
+      );
+
       return (
         <button
           key={seatNumber}
@@ -124,22 +118,24 @@ const BookShowContent = () => {
             selectedSeats.includes(seatNumber)
               ? "bg-blue-500"
               : isBooked
-              ? "bg-red-500 cursor-not-allowed" // Disabled booked seats
+              ? "bg-red-500 cursor-not-allowed"
               : "bg-gray-300"
           } rounded-md`}
           onClick={() => handleSeatSelection(seatNumber)}
-          disabled={isBooked} // Disable the button if the seat is booked
+          disabled={isBooked}
         >
           Seat {seatNumber}
         </button>
       );
     });
   };
-  
+
+  if (loading) return <div>Loading...</div>;
+
+  if (!showData) return <div>No show data available</div>;
 
   return (
     <div className="container mx-auto p-6">
-      {/* Show Image */}
       <div className="flex justify-center mb-6">
         <img
           src={showData.imageUrl}
@@ -148,7 +144,6 @@ const BookShowContent = () => {
         />
       </div>
 
-      {/* Show Info */}
       <div className="text-center">
         <h1 className="text-3xl font-semibold mb-4">{showData.name}</h1>
         <p className="text-lg text-gray-700 mb-4">{showData.description}</p>
@@ -168,19 +163,16 @@ const BookShowContent = () => {
           </div>
         </div>
 
-        {/* Book Now Button */}
         <div className="flex justify-center">
           <button
             className="bg-orange-600 text-white py-2 px-6 rounded-md shadow-lg hover:bg-orange-500 transition duration-300"
-            disabled={requesting}
-            onClick={() => setModalOpen(true)} // Open modal on click
+            onClick={() => setModalOpen(true)}
           >
-            {requesting ? "Booking..." : "Book Now"}
+            Book Now
           </button>
         </div>
       </div>
 
-      {/* Modal for Seat Selection */}
       {modalOpen && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg w-96">
@@ -189,14 +181,44 @@ const BookShowContent = () => {
             <div className="mt-4 text-center">
               <button
                 className="bg-orange-600 text-white py-2 px-6 rounded-md"
-                onClick={handleBook}
-                disabled={requesting}
+                onClick={() => {
+                  setModalOpen(false);
+                  setPaymentModalOpen(true); // Open payment modal
+                }}
               >
-                {requesting ? "Booking..." : "Confirm Booking"}
+                Confirm Booking
               </button>
               <button
                 className="bg-gray-500 text-white py-2 px-6 rounded-md ml-4"
-                onClick={() => setModalOpen(false)} // Close modal
+                onClick={() => setModalOpen(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {paymentModalOpen && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg w-96">
+            <h2 className="text-2xl mb-4">Choose Payment Method</h2>
+            <div className="flex flex-col gap-4">
+              <button
+                className="bg-blue-600 text-white py-2 px-6 rounded-md"
+                onClick={handleBook}
+              >
+                Google Pay
+              </button>
+              <button
+                className="bg-green-600 text-white py-2 px-6 rounded-md"
+                onClick={handleBook}
+              >
+                PhonePe
+              </button>
+              <button
+                className="bg-gray-500 text-white py-2 px-6 rounded-md"
+                onClick={() => setPaymentModalOpen(false)}
               >
                 Cancel
               </button>
@@ -208,12 +230,10 @@ const BookShowContent = () => {
   );
 };
 
-const BookShow = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <BookShowContent />
-    </Suspense>
-  );
-};
+const BookShow = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <BookShowContent />
+  </Suspense>
+);
 
 export default BookShow;
